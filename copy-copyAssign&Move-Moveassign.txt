@@ -1,0 +1,71 @@
+[Yesterday 21:04] Uddandu Saheb
+#include <iostream>
+using namespace std;
+class uddand {
+    int data;
+    int *p;
+public:
+    uddand(int d) {
+        data=d;
+        p=new int[data];
+        cout<<"perameterized construcrtor"<<endl;
+    }
+    uddand(const uddand& obj) {
+          cout<<"Copy-Constructor"<<endl;
+          data=obj.data;
+        if(p!=nullptr)
+        {
+        p=new int[data];
+        for(auto i=0;i<data;++i)
+            p[i]=obj.p[i];
+        }
+      else 
+      p=nullptr;
+    }
+    uddand& operator=(const uddand& obj1) {
+        data=obj1.data;
+        if(this==&obj1)
+        {
+cout<<"pointers are same "<<endl;
+return *this;
+        }
+        else
+        {
+        p=new int[data];
+        for(auto i=0;i<data;++i)
+            p[i]=obj1.p[i];
+        cout<<"Copy-assignment-"<<endl;
+         return *this;
+        }
+    }
+    uddand( uddand&& obj2):p(obj2.p) 
+    {
+         cout<<"Move-Constructor"<<endl;
+        data=obj2.data;
+        obj2.p=nullptr;
+        obj2.data=0;
+    }
+    uddand& operator=(uddand&& obj1) 
+    {
+        cout<<"Move-assignment-"<<endl;
+        data=obj1.data;
+        p=obj1.p;
+        obj1.p=nullptr;
+        obj1.data=0;
+        return *this;
+    }
+    ~uddand()
+    {
+        cout<<"destructor"<<endl;
+    }
+};
+int main()
+{
+    uddand a(10);
+    uddand b(a);
+    b=a;
+    uddand c=std::move(a);
+    c=std::move(a);
+    return 0;
+}
+
